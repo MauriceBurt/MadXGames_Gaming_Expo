@@ -1,0 +1,172 @@
+Router#show run
+Building configuration...
+
+Current configuration : 3682 bytes
+!
+version 15.4
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+!
+!
+ip dhcp excluded-address 192.168.10.1
+ip dhcp excluded-address 192.168.20.1
+ip dhcp excluded-address 192.168.30.1
+ip dhcp excluded-address 192.168.40.1
+ip dhcp excluded-address 192.168.50.1
+ip dhcp excluded-address 192.168.60.1
+ip dhcp excluded-address 192.168.70.1
+!
+ip dhcp pool Guest_WiFi
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+ dns-server 8.8.8.8
+ip dhcp pool Security
+ network 192.168.20.0 255.255.255.0
+ default-router 192.168.20.1
+ dns-server 8.8.8.8
+ip dhcp pool Vendor
+ network 192.168.30.0 255.255.255.0
+ default-router 192.168.30.1
+ dns-server 8.8.8.8
+ip dhcp pool VIP
+ network 192.168.40.0 255.255.255.0
+ default-router 192.168.40.1
+ dns-server 8.8.8.8
+ip dhcp pool Employee
+ network 192.168.50.0 255.255.255.0
+ default-router 192.168.50.1
+ dns-server 8.8.8.8
+ip dhcp pool Gaming_PCs
+ network 192.168.60.0 255.255.255.0
+ default-router 192.168.60.1
+ dns-server 8.8.8.8
+ip dhcp pool AV_Infrastructure
+ network 192.168.70.0 255.255.255.0
+ default-router 192.168.70.1
+ dns-server 8.8.8.8
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+ ip access-group Guest_Restrict in
+!
+interface GigabitEthernet0/0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+ ip access-group Security_Restrict in
+!
+interface GigabitEthernet0/0/0.30
+ encapsulation dot1Q 30
+ ip address 192.168.30.1 255.255.255.0
+ ip access-group Vendor_Restrict in
+!
+interface GigabitEthernet0/0/0.40
+ encapsulation dot1Q 40
+ ip address 192.168.40.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0.50
+ encapsulation dot1Q 50
+ ip address 192.168.50.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0.60
+ encapsulation dot1Q 60
+ ip address 192.168.60.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0.70
+ encapsulation dot1Q 70
+ ip address 192.168.70.1 255.255.255.0
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+ip access-list extended Guest_Restrict
+ deny ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
+ deny ip 192.168.10.0 0.0.0.255 192.168.30.0 0.0.0.255
+ deny ip 192.168.10.0 0.0.0.255 192.168.40.0 0.0.0.255
+ deny ip 192.168.10.0 0.0.0.255 192.168.50.0 0.0.0.255
+ deny ip 192.168.10.0 0.0.0.255 192.168.60.0 0.0.0.255
+ deny ip 192.168.10.0 0.0.0.255 192.168.70.0 0.0.0.255
+ permit ip 192.168.10.0 0.0.0.255 any
+ip access-list extended Vendor_Restrict
+ deny ip 192.168.30.0 0.0.0.255 192.168.10.0 0.0.0.255
+ deny ip 192.168.30.0 0.0.0.255 192.168.20.0 0.0.0.255
+ deny ip 192.168.30.0 0.0.0.255 192.168.40.0 0.0.0.255
+ deny ip 192.168.30.0 0.0.0.255 192.168.50.0 0.0.0.255
+ deny ip 192.168.30.0 0.0.0.255 192.168.60.0 0.0.0.255
+ deny ip 192.168.30.0 0.0.0.255 192.168.70.0 0.0.0.255
+ permit ip 192.168.30.0 0.0.0.255 any
+ip access-list extended Security_Restrict
+ deny ip 192.168.20.0 0.0.0.255 192.168.10.0 0.0.0.255
+ deny ip 192.168.20.0 0.0.0.255 192.168.30.0 0.0.0.255
+ deny ip 192.168.20.0 0.0.0.255 192.168.40.0 0.0.0.255
+ deny ip 192.168.20.0 0.0.0.255 192.168.50.0 0.0.0.255
+ deny ip 192.168.20.0 0.0.0.255 192.168.60.0 0.0.0.255
+ deny ip 192.168.20.0 0.0.0.255 192.168.70.0 0.0.0.255
+ permit ip 192.168.20.0 0.0.0.255 any
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+
